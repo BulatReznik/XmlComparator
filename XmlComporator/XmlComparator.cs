@@ -55,8 +55,8 @@ namespace XmlComparator
         /// <summary>
         /// Сравнение последовательности XML-файлов
         /// </summary>
-        /// <param name="originalXml">Последовательность оригинальныз Xml-файлов</param>
-        /// <param name="comparedXml">Последовательность сравниваемых Xml-файлов</param>
+        /// <param name="originalXmls">Последовательность оригинальныз Xml-файлов</param>
+        /// <param name="comparedXmls">Последовательность сравниваемых Xml-файлов</param>
         /// <returns>XmlComparisonResult - класс с результатами сравнения</returns>
         public List<XmlComparisonResult> CompareXml(IEnumerable<XDocument> originalXmls, IEnumerable<XDocument> comparedXmls)
         {
