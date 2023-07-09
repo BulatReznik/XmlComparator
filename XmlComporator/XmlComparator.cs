@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Xml.Linq;
-using XmlComparator;
 
 namespace XmlComparator
 {

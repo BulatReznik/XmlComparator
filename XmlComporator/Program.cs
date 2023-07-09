@@ -20,12 +20,14 @@ namespace XmlComparator
 
             List<XDocument> xmlDocumentsCopy = new()
             {
-                xmlCopyFalse, xmlCopyTrue
+                xmlCopyFalse, xmlCopyTrue, xmlCopyTrue
             };
 
             //Сравнение для последовательности xml файлов
             List<XmlComparisonResult> resultsSequence = xmlComparator.CompareXml(xmlDocumentsOriginal, xmlDocumentsCopy);
 
+            Console.WriteLine("Сравнение для последовательности xml файлов:");
+            Console.WriteLine();
             Console.WriteLine("Количество документов в первой последовательности: " + xmlDocumentsOriginal.Count);
             Console.WriteLine("Количество документов во второй последовательности: " + xmlDocumentsCopy.Count);
             Console.WriteLine();
@@ -57,6 +59,9 @@ namespace XmlComparator
             XmlComparisonResult resultTakeOne = xmlComparator.CompareXml(xmlOriginal, xmlCopyFalse);
 
             Console.WriteLine();
+            Console.WriteLine("Сравнение для двух xml файлов:");
+            Console.WriteLine();
+            
             if (resultTakeOne.Differences.Count > 0)
             {
                 Console.WriteLine("Коэффициент разности xml: " + resultTakeOne.DifferenceCoefficient);
