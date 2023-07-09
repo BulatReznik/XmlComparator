@@ -13,22 +13,31 @@ namespace XmlComparator
             XDocument xmlCopyFalse = XmlComparator.LoadXmlDocument(@"XML\xmlCopyFalse.xml"); 
             XDocument xmlCopyTrue = XmlComparator.LoadXmlDocument(@"XML\xmlCopyTrue.xml");
 
-            List<XDocument> xmlDocumentsOriginal = new()
+
+
+            /*List<XDocument> xmlDocumentsOriginal = new()
             {
                 xmlOriginal, xmlOriginal, xmlOriginal, xmlOriginal
+            };
+            */
+            XDocument[] xmlDocumentsOriginal = new XDocument[]
+            {
+                xmlOriginal
             };
 
             List<XDocument> xmlDocumentsCopy = new()
             {
-                xmlCopyFalse, xmlCopyTrue, xmlCopyTrue
+                xmlCopyFalse
             };
+
+            
 
             //Сравнение для последовательности xml файлов
             List<XmlComparisonResult> resultsSequence = xmlComparator.CompareXml(xmlDocumentsOriginal, xmlDocumentsCopy);
 
             Console.WriteLine("Сравнение для последовательности xml файлов:");
             Console.WriteLine();
-            Console.WriteLine("Количество документов в первой последовательности: " + xmlDocumentsOriginal.Count);
+            Console.WriteLine("Количество документов в первой последовательности: " + xmlDocumentsOriginal.Length);
             Console.WriteLine("Количество документов во второй последовательности: " + xmlDocumentsCopy.Count);
             Console.WriteLine();
 

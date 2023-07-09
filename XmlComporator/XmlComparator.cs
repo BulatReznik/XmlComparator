@@ -47,10 +47,8 @@ namespace XmlComparator
                 result.DifferentNodesCount = differentNodes;
                 result.Differences = differences;
             }
-
             return result;
         }
-
 
         /// <summary>
         /// Сравнение последовательности XML-файлов
