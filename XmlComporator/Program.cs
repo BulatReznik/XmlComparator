@@ -34,13 +34,12 @@ namespace XmlComparator
             {
                 XmlComparisonResult result = resultsSequence[i];
 
-                Console.WriteLine("Сравнение документов: #" + (i + 1));
-                Console.WriteLine("Коэффициент разности xml: " + result.DifferenceCoefficient);
-                Console.WriteLine("Количество различающихся узлов: " + result.DifferentNodesCount);
-                Console.WriteLine("Отличия:");
-
-                if (result.Differences != null && result.Differences.Count > 0)
+                Console.WriteLine("Сравнение документов: #" + (i + 1)); 
+                if (result.Differences.Count > 0)
                 {
+                    Console.WriteLine("Коэффициент разности xml: " + result.DifferenceCoefficient);
+                    Console.WriteLine("Количество различающихся узлов: " + result.DifferentNodesCount);
+                    Console.WriteLine("Отличия:");
                     foreach (string difference in result.Differences)
                     {
                         Console.WriteLine(difference);
