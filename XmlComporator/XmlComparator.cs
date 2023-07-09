@@ -27,14 +27,8 @@ namespace XmlComparator
         {
             XmlComparisonResult result = new();
 
-            if (originalXml != null)
-            {
-                result.OriginalCount++;
-            }
-            if (comparedXml != null)
-            {
-                result.ComparerCount++;
-            }
+            result.OriginalCount += originalXml != null ? 1 : 0;
+            result.ComparerCount += comparedXml != null ? 1 : 0;
 
             if (originalXml != null && comparedXml != null)
             {

@@ -10,24 +10,17 @@ namespace XmlComparator
             XmlComparator xmlComparator = new();
 
             XDocument xmlOriginal = XmlComparator.LoadXmlDocument(@"XML\xmlOriginal.xml");
-            XDocument xmlCopyFalse = XmlComparator.LoadXmlDocument(@"XML\xmlCopyFalse.xml"); 
-            XDocument xmlCopyTrue = XmlComparator.LoadXmlDocument(@"XML\xmlCopyTrue.xml");
+            XDocument xmlCopyFalse = XmlComparator.LoadXmlDocument(@"XML\xmlCopyFalse.xml");
 
-
-
-            /*List<XDocument> xmlDocumentsOriginal = new()
-            {
-                xmlOriginal, xmlOriginal, xmlOriginal, xmlOriginal
-            };
-            */
+            
             XDocument[] xmlDocumentsOriginal = new XDocument[]
             {
-                xmlOriginal
+                xmlOriginal,xmlOriginal,xmlOriginal
             };
 
             List<XDocument> xmlDocumentsCopy = new()
             {
-                xmlCopyFalse
+                xmlCopyFalse, xmlOriginal
             };
 
             
