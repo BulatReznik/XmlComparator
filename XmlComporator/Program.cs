@@ -23,8 +23,6 @@ namespace XmlComparator
                 xmlCopyFalse, xmlOriginal
             };
 
-            
-
             //Сравнение для последовательности xml файлов
             List<XmlComparisonResult> resultsSequence = xmlComparator.CompareXml(xmlDocumentsOriginal, xmlDocumentsCopy);
 
