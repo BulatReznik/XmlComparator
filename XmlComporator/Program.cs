@@ -9,73 +9,23 @@ namespace XmlComparator
 
             XmlComparator xmlComparator = new();
 
-            XDocument xmlOriginal = XmlComparator.LoadXmlDocument(@"XML\xmlOriginal.xml");
-            XDocument xmlCopyFalse = XmlComparator.LoadXmlDocument(@"XML\xmlCopyFalse.xml");
+            XDocument xmlOriginal = XmlComparator.LoadXmlDocument(@"XML\xmlOriginal1.xml");
+            XDocument xmlCopyFalse = XmlComparator.LoadXmlDocument(@"XML\xmlCopyFalse1.xml");
 
             
             XDocument[] xmlDocumentsOriginal = new XDocument[]
             {
-                xmlOriginal,xmlOriginal,xmlOriginal
+                xmlOriginal,xmlOriginal,xmlOriginal,xmlOriginal
             };
 
             List<XDocument> xmlDocumentsCopy = new()
             {
-                xmlCopyFalse, xmlOriginal
+                xmlCopyFalse, xmlOriginal,xmlCopyFalse,xmlOriginal
             };
 
-            //Сравнение для последовательности xml файлов
-            List<XmlComparisonResult> resultsSequence = xmlComparator.CompareXml(xmlDocumentsOriginal, xmlDocumentsCopy);
+            //xmlComparator.OutputComparison(xmlDocumentsOriginal, xmlDocumentsCopy);
+            xmlComparator.OutputComparison(xmlOriginal, xmlCopyFalse);
 
-            Console.WriteLine("Сравнение для последовательности xml файлов:");
-            Console.WriteLine();
-            Console.WriteLine("Количество документов в первой последовательности: " + xmlDocumentsOriginal.Length);
-            Console.WriteLine("Количество документов во второй последовательности: " + xmlDocumentsCopy.Count);
-            Console.WriteLine();
-
-            for (int i = 0; i < resultsSequence.Count; i++)
-            {
-                XmlComparisonResult result = resultsSequence[i];
-
-                Console.WriteLine("Сравнение документов: #" + (i + 1)); 
-                if (result.Differences.Count > 0)
-                {
-                    Console.WriteLine("Коэффициент разности xml: " + result.DifferenceCoefficient);
-                    Console.WriteLine("Количество различающихся узлов: " + result.DifferentNodesCount);
-                    Console.WriteLine("Отличия:");
-                    foreach (string difference in result.Differences)
-                    {
-                        Console.WriteLine(difference);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Отличий нет");
-                }
-
-                Console.WriteLine();
-            }
-            
-            //Сравнение для двух xml файлов
-            XmlComparisonResult resultTakeOne = xmlComparator.CompareXml(xmlOriginal, xmlCopyFalse);
-
-            Console.WriteLine();
-            Console.WriteLine("Сравнение для двух xml файлов:");
-            Console.WriteLine();
-            
-            if (resultTakeOne.Differences.Count > 0)
-            {
-                Console.WriteLine("Коэффициент разности xml: " + resultTakeOne.DifferenceCoefficient);
-                Console.WriteLine("Количество различающихся узлов: " + resultTakeOne.DifferentNodesCount);
-                Console.WriteLine("Отличия:");
-                foreach (string difference in resultTakeOne.Differences)
-                {
-                    Console.WriteLine(difference);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Отличий нет");
-            }
         }
     }
 }

@@ -77,25 +77,114 @@ namespace XmlComparator
         {
             if (!XNode.DeepEquals(originalNode, comparedNode))
             {
-                differences.Add($"Невероятный оригинал:\n{originalNode}");
-                differences.Add($"Жалкая копия:\n{comparedNode}");
                 count++;
+                if (originalNode.Value != comparedNode.Value && originalNode.Name == comparedNode.Name)
+                {
+                    differences.Add($"\nОтличие #{count} Узла {originalNode.Name}:\nРазличаются значения узлов:\nЗначение оригинального узла: {originalNode.Value}\nЗначение сравниваемого узла: {comparedNode.Value}\n");
+                }
             }
-
-            if (originalNode.HasElements && comparedNode.HasElements)
+            if (originalNode.HasElements || comparedNode.HasElements)
             {
                 var originalChildren = originalNode.Elements();
                 var comparedChildren = comparedNode.Elements();
 
-                var childPairs = originalChildren.Zip(comparedChildren,
-                    (originalChild, comparedChild) => new { Original = originalChild, Compared = comparedChild });
+                var originalEnumerator = originalChildren.GetEnumerator();
+                var comparedEnumerator = comparedChildren.GetEnumerator();
+                
 
-                foreach (var pair in childPairs)
+                while (originalEnumerator.MoveNext())
                 {
-                    CountDifferentNodesAndFindDifferences(pair.Original, pair.Compared, ref count, differences);
+                    comparedEnumerator.MoveNext();
+                    var originalChild = originalEnumerator.Current;
+                    var comparedChild = comparedEnumerator.Current;
+
+                    if (originalNode.Elements().Count() > comparedNode.Elements().Count()){
+
+                        while (originalChild.Name != comparedChild.Name)
+                        {
+                            count++;
+                            differences.Add($"\nОтличие #{count}:\nРазличные атрибуты узлов:\nОригинальный узел: {originalChild}\nСравниваемый узел: {comparedChild}\n");
+                            differences.Add($"\nАтрибут оригинального узла: {originalChild.Name}\nАтрибут сравниваемого узла: {comparedChild.Name}\n");
+                            if (!originalEnumerator.MoveNext())
+                            {
+                                break;
+                            }
+                            originalChild = originalEnumerator.Current;
+                        }
+                    }
+                    else if(originalNode.Elements().Count() < comparedNode.Elements().Count()) {
+                        
+                        while (originalChild.Name != comparedChild.Name)
+                        {
+                            count++;
+                            differences.Add($"\nОтличие #{count}:\nРазличные атрибуты узлов:\nОригинальный узел: {originalChild}\nСравниваемый узел: {comparedChild}\n");
+                            differences.Add($"\nАтрибут оригинального узла: {originalChild.Name}\nАтрибут сравниваемого узла: {comparedChild.Name}\n");
+                            if (!comparedEnumerator.MoveNext())
+                            {
+                                break;
+                            }
+                            comparedChild = comparedEnumerator.Current;
+                        }
+                    }
+                    CountDifferentNodesAndFindDifferences(originalChild, comparedChild, ref count, differences);
                 }
             }
         }
-    }
 
+
+        public void OutputComparison(IEnumerable<XDocument> xmlDocumentsOriginal, IEnumerable<XDocument> xmlDocumentsCopy)
+        {
+            List<XmlComparisonResult> resultsSequence = CompareXml(xmlDocumentsOriginal, xmlDocumentsCopy);
+
+            Console.WriteLine("Сравнение для последовательности xml файлов:");
+            Console.WriteLine();
+            Console.WriteLine("Количество документов в первой последовательности: " + xmlDocumentsOriginal.Count());
+            Console.WriteLine("Количество документов во второй последовательности: " + xmlDocumentsCopy.Count());
+            Console.WriteLine();
+
+            for (int i = 0; i < resultsSequence.Count; i++)
+            {
+                XmlComparisonResult result = resultsSequence[i];
+
+                Console.WriteLine("Сравнение документов: #" + (i + 1));
+                if (result.DifferentNodesCount > 0)
+                {
+                    Console.WriteLine("Коэффициент разности xml: " + result.DifferenceCoefficient);
+                    Console.WriteLine("Количество различающихся узлов: " + result.DifferentNodesCount);
+                    Console.WriteLine("Отличия:");
+                    foreach (string difference in result.Differences)
+                    {
+                        Console.WriteLine(difference);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Отличий нет\n");
+                }
+            }
+        }
+        public void OutputComparison(XDocument xmlOriginal, XDocument xmlCopyFalse)
+        {
+            XmlComparisonResult resultTakeOne = CompareXml(xmlOriginal, xmlCopyFalse);
+
+            Console.WriteLine("Сравнение для двух xml файлов:");
+            Console.WriteLine();
+
+            if (resultTakeOne.DifferenceCoefficient > 0)
+            {
+                Console.WriteLine("Коэффициент разности xml: " + resultTakeOne.DifferenceCoefficient);
+                Console.WriteLine("Количество различающихся узлов: " + resultTakeOne.DifferentNodesCount);
+                Console.WriteLine("Отличия:");
+                foreach (string difference in resultTakeOne.Differences)
+                {
+                    Console.WriteLine(difference);
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Отличий нет\n");
+            }
+        }
+    }
 }
